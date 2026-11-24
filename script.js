@@ -722,10 +722,10 @@ function updateStepDisplay() {
     $("stepReadout").textContent =
       String(i + 1).padStart(2, "0") + " / 16";
 
-    S.step = (S.step + 1) % 16;
-    renderSteps();
+S.step = (S.step + 1) % 16;
+updateStepDisplay();
 
-    S.timer = setTimeout(tick, interval);
+S.timer = setTimeout(tick, interval);
   }
 
   function play() {
@@ -1026,35 +1026,34 @@ function computerUp(key) {
 
 
 
-  function updateMeters() {
+const meterLeft = new Uint8Array(256);
+const meterRight = new Uint8Array(256);
+
+function updateMeters() {
     if (!S.ctx) return;
 
-    const left = new Uint8Array(S.analyserL.fftSize);
-    const right = new Uint8Array(S.analyserR.fftSize);
-
-    S.analyserL.getByteTimeDomainData(left);
-    S.analyserR.getByteTimeDomainData(right);
+    S.analyserL.getByteTimeDomainData(meterLeft);
+    S.analyserR.getByteTimeDomainData(meterRight);
 
     function rms(data) {
-      let sum = 0;
+        let sum = 0;
 
-      for (let i = 0; i < data.length; i++) {
-        const v = (data[i] - 128) / 128;
-        sum += v * v;
-      }
+        for (let i = 0; i < data.length; i++) {
+            const v = (data[i] - 128) / 128;
+            sum += v * v;
+        }
 
-      return Math.sqrt(sum / data.length);
+        return Math.sqrt(sum / data.length);
     }
 
     $("meterL").style.height =
-      Math.min(100, rms(left) * 300) + "%";
+        Math.min(100, rms(meterLeft) * 300) + "%";
 
     $("meterR").style.height =
-      Math.min(100, rms(right) * 300) + "%";
+        Math.min(100, rms(meterRight) * 300) + "%";
 
     S.animation = requestAnimationFrame(updateMeters);
-  }
-
+}
 
 
   let toastTimer;
