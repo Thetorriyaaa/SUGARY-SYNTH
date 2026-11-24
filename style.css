@@ -54,7 +54,7 @@ button {
     position: relative;
 }
 
-/* TOP BAR */
+
 
 .topbar {
     min-height: 53px;
@@ -169,7 +169,7 @@ button {
     box-shadow: none;
 }
 
-/* PANELS */
+
 
 .panel {
     min-width: 0;
@@ -270,7 +270,7 @@ button {
     color: #9e573b;
 }
 
-/* VOICES */
+
 
 .voices {
     display: grid;
@@ -324,7 +324,7 @@ button {
     transform: translateY(-2px);
 }
 
-/* KNOBS */
+
 
 .knob {
     width: 55px;
@@ -461,7 +461,7 @@ button {
     left: 14px;
 }
 
-/* ENVELOPE */
+
 
 .faders {
     display: flex;
@@ -508,7 +508,7 @@ button {
     height: 100%;
 }
 
-/* MIDDLE */
+
 
 .middle {
     display: grid;
@@ -573,7 +573,7 @@ button {
     font-size: 7px;
 }
 
-/* SELECTS */
+
 
 select {
     border: 1px solid rgba(80, 86, 110, .18);
@@ -590,7 +590,7 @@ select:focus {
     border-color: #8b8bd0;
 }
 
-/* SEQUENCER */
+
 
 .sequencer-panel {
     padding: 12px;
@@ -797,7 +797,7 @@ select:focus {
     margin-left: auto;
 }
 
-/* MIXER */
+
 
 .mixer-panel {
     min-width: 0;
@@ -871,7 +871,7 @@ select:focus {
     font: 8px 'DM Mono', monospace;
 }
 
-/* EFFECTS */
+
 
 .effects {
     display: grid;
@@ -925,7 +925,7 @@ select:focus {
     margin-left: auto;
 }
 
-/* PERFORMANCE */
+
 
 .tempo-area {
     display: flex;
@@ -1014,7 +1014,7 @@ select:focus {
     min-width: 22px;
 }
 
-/* FOOTER */
+
 
 .footer {
     display: flex;
@@ -1026,7 +1026,7 @@ select:focus {
     letter-spacing: .5px;
 }
 
-/* RANGE INPUTS */
+
 
 input[type="range"] {
     appearance: none;
@@ -1071,7 +1071,7 @@ button:focus-visible {
     outline-offset: 2px;
 }
 
-/* TOAST */
+
 
 .toast {
     position: fixed;
@@ -1095,7 +1095,7 @@ button:focus-visible {
     transform: translate(-50%, 0);
 }
 
-/* RESPONSIVE */
+
 
 @media (max-width: 900px) {
     .voices {
@@ -1199,7 +1199,7 @@ button:focus-visible {
         font-size: 6px;
     }
 }
-/* LIVE ADSR ENVELOPE */
+
 
 .envelope-graphic {
     position: relative;

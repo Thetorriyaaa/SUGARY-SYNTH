@@ -73,9 +73,7 @@
     }
   };
 
-  // --------------------------------------
-  // 01. INTERFACE
-  // --------------------------------------
+
 
   function format(key, value) {
     if (key.startsWith("pan")) {
@@ -198,9 +196,7 @@
     });
   });
 
-  // --------------------------------------
-  // 02. AUDIO UTILITIES
-  // --------------------------------------
+
 
   function makeImpulse(ctx, room, damp) {
     const seconds = 1.2 + room * 3.5;
@@ -271,9 +267,7 @@
     return { convolver, wet };
   }
 
-  // --------------------------------------
-  // 03. AUDIO ENGINE
-  // --------------------------------------
+
 
   function initAudio() {
     if (S.ctx) {
@@ -296,7 +290,7 @@
     S.master.gain.value = 0.78;
     S.master.connect(ctx.destination);
 
-    // Real stereo meters
+
 
     const splitter = ctx.createChannelSplitter(2);
 
@@ -310,14 +304,14 @@
     splitter.connect(S.analyserL, 0);
     splitter.connect(S.analyserR, 1);
 
-    // LFO
+
 
     S.lfo = ctx.createOscillator();
     S.lfo.type = "sine";
     S.lfo.frequency.value = V.lfoRate;
     S.lfo.start();
 
-    // Two separate signal chains
+
 
     ["A", "B"].forEach(name => {
       const input = ctx.createGain();
@@ -367,9 +361,7 @@
     return true;
   }
 
-  // --------------------------------------
-  // 04. EFFECTS + MIXER
-  // --------------------------------------
+
 
   function applyAudio() {
     if (!S.ctx) return;
@@ -444,14 +436,12 @@
       V.lfoRate, now, 0.025
     );
 
-    // Update active modulation
+
 
     S.notes.forEach(note => updateNoteMod(note));
   }
 
-  // --------------------------------------
-  // 05. LFO
-  // --------------------------------------
+
 
   function updateNoteMod(note) {
     if (!S.ctx || !note || note.released) return;
@@ -477,9 +467,7 @@
     }
   }
 
-  // --------------------------------------
-  // 06. SYNTH VOICE
-  // --------------------------------------
+
 
   function midiFrequency(midi) {
     return 440 * Math.pow(2, (midi - 69) / 12);
@@ -595,9 +583,7 @@
     setTimeout(() => noteOff(note), Math.max(40, duration * 1000));
   }
 
-  // --------------------------------------
-  // 07. WAVE SELECTORS
-  // --------------------------------------
+
 
   ["A", "B"].forEach(name => {
     const group = $("wave" + name);
@@ -624,9 +610,7 @@ if (S.voices[name]) {
     });
   });
 
-  // --------------------------------------
-  // 08. SEQUENCER
-  // --------------------------------------
+
 
 function renderSteps() {
   const container = $("steps");
@@ -638,7 +622,7 @@ function renderSteps() {
     button.type = "button";
     button.className = "step";
 
-    // ВАЖНО: определяем дорожку и номер шага
+
     button.dataset.track = S.track;
     button.dataset.index = i;
 
@@ -671,7 +655,7 @@ function renderSteps() {
   }
 }
 
-// Обновляем положение проигрывания без пересоздания кнопок
+
 function updateStepDisplay() {
   document.querySelectorAll(".step").forEach(button => {
     const index = Number(button.dataset.index);
@@ -772,9 +756,7 @@ function updateStepDisplay() {
   $("playBtn").addEventListener("click", play);
   $("stopBtn").addEventListener("click", stop);
 
-  // --------------------------------------
-  // 09. RANDOM
-  // --------------------------------------
+
 
   $("randomBtn").addEventListener("click", () => {
     ["A", "B"].forEach(track => {
@@ -802,9 +784,7 @@ function updateStepDisplay() {
     toast("CLEARED");
   });
 
-  // --------------------------------------
-  // 10. PRESETS + SAVE
-  // --------------------------------------
+
 
   function loadPreset(name) {
     const preset = presetPatterns[name];
@@ -871,9 +851,7 @@ function updateStepDisplay() {
     loadPreset("dream");
   }
 
-  // --------------------------------------
-  // 11. RANGE CONTROLS
-  // --------------------------------------
+
 
   const rangeIds = [
     "master", "mixA", "mixB", "width",
@@ -914,9 +892,7 @@ function updateStepDisplay() {
     $(id).addEventListener("change", applyAudio);
   });
 
-  // --------------------------------------
-  // 12. EFFECT PREPARATION
-  // --------------------------------------
+
 
   function refreshReverb() {
     if (!S.ctx) return;
@@ -936,9 +912,7 @@ function updateStepDisplay() {
     el.addEventListener("wheel", refreshReverb);
   });
 
-  // --------------------------------------
-  // 13. COMPUTER KEYBOARD
-  // --------------------------------------
+
 
   const keyboardMap = {
     q: 0, w: 2, e: 4, r: 5, t: 7,
@@ -1002,9 +976,7 @@ function computerUp(key) {
     computerUp(e.key);
   });
 
-  // --------------------------------------
-  // 14. HOLD
-  // --------------------------------------
+
 
   $("holdBtn").addEventListener("change", e => {
     const enabled = e.target.checked;
@@ -1027,9 +999,7 @@ function computerUp(key) {
     }
   });
 
-  // --------------------------------------
-  // 15. TAP TEMPO
-  // --------------------------------------
+
 
   $("tapBtn").addEventListener("click", () => {
     const now = Date.now();
@@ -1054,9 +1024,7 @@ function computerUp(key) {
     }
   });
 
-  // --------------------------------------
-  // 16. METERS
-  // --------------------------------------
+
 
   function updateMeters() {
     if (!S.ctx) return;
@@ -1087,9 +1055,7 @@ function computerUp(key) {
     S.animation = requestAnimationFrame(updateMeters);
   }
 
-  // --------------------------------------
-  // 17. TOAST
-  // --------------------------------------
+
 
   let toastTimer;
 
@@ -1105,9 +1071,7 @@ function computerUp(key) {
     }, 1400);
   }
 
-  // --------------------------------------
-  // 18. INITIALIZATION
-  // --------------------------------------
+
 
   $("statusLed").classList.add("off");
 
@@ -1118,7 +1082,7 @@ function computerUp(key) {
   $("humanizeValue").textContent = $("humanize").value + "%";
 
 })();
-// LIVE ENVELOPE GRAPHIC
+
 
 const envelopePath = document.getElementById("envelopePath");
 const envelopeFillPath = document.getElementById("envelopeFillPath");
