@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SUGARY SYNTH</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <main class="synth">
+
+        <header class="topbar">
+            <div class="logo">
+                <span class="logo-mark">🎶</span>
+                <div>
+                    <b>SUGARY SYNTH</b>
+                    <small></small>
+                </div>
+            </div>
+
+            <div class="top-center">
+                <span class="live-dot" id="statusLed"></span>
+                <span id="statusText">READY</span>
+            </div>
+
+            <div class="master-control">
+                <span>MASTER</span>
+                <input type="range" id="master" min="0" max="100" value="78">
+                <b id="masterValue">78</b>
+            </div>
+
+            <button class="main-play" id="playBtn">▶</button>
+            <button class="stop-btn" id="stopBtn">■</button>
+        </header>
+
+        <section class="voices">
+
+            <article class="panel voice-a">
+                <div class="panel-title">
+                    <span class="number">01</span>
+                    <b>OSCILLATOR A</b>
+                 
+                </div>
+
+                <div class="voice-content">
+                    <div class="wave-block">
+                        <small></small>
+                        <div class="wave-buttons" id="waveA">
+                            <button class="wave-btn active" data-wave="triangle">△</button>
+                            <button class="wave-btn" data-wave="sine">∿</button>
+                            <button class="wave-btn" data-wave="sawtooth">⌁</button>
+                            <button class="wave-btn" data-wave="square">▤</button>
+                        </div>
+                    </div>
+
+                    <div class="knob" data-target="octA" data-min="-2" data-max="2" data-value="0">
+                        <div class="knob-face"><i></i></div>
+                        <small>OCT</small>
+                        <output>0</output>
+                    </div>
+
+                    <div class="knob" data-target="tuneA" data-min="-100" data-max="100" data-value="0">
+                        <div class="knob-face"><i></i></div>
+                        <small>TUNE</small>
+                        <output>0</output>
+                    </div>
+
+                    <div class="knob" data-target="levelA" data-min="0" data-max="100" data-value="70">
+                        <div class="knob-face"><i></i></div>
+                        <small>LEVEL</small>
+                        <output>70%</output>
+                    </div>
+
+                    <div class="knob" data-target="panA" data-min="-100" data-max="100" data-value="-45">
+                        <div class="knob-face"><i></i></div>
+                        <small>PAN</small>
+                        <output>L 45</output>
+                    </div>
+
+                    <div class="voice-switches">
+                        <label class="toggle">
+                            <input type="checkbox" id="subA" checked>
+                            <span></span>SUB
+                        </label>
+                        <label class="toggle">
+                            <input type="checkbox" id="onA" checked>
+                            <span></span>ON
+                        </label>
+                    </div>
+                </div>
+            </article>
+
+            <article class="panel envelope-panel">
+                <div class="panel-title">
+                    <span class="number">02</span>
+                    <b>ENVELOPE</b>
+                  
+                </div>
+
+                <div class="faders">
+                    <div class="fader">
+                        <input type="range" id="attack" min="0.01" max="1.5" step="0.01" value="0.08">
+                        <small>A</small>
+                        <output id="attackOut">0.08</output>
+                    </div>
+                    <div class="fader">
+                        <input type="range" id="decay" min="0.02" max="1.5" step="0.01" value="0.28">
+                        <small>D</small>
+                        <output id="decayOut">0.28</output>
+                    </div>
+                    <div class="fader">
+                        <input type="range" id="sustain" min="0" max="1" step="0.01" value="0.55">
+                        <small>S</small>
+                        <output id="sustainOut">0.55</output>
+                    </div>
+                    <div class="fader">
+                        <input type="range" id="release" min="0.02" max="2" step="0.01" value="0.35">
+                        <small>R</small>
+                        <output id="releaseOut">0.35</output>
+                    </div>
+                </div>
+
+<div class="envelope-graphic" id="envelopeGraphic">
+    <svg viewBox="0 0 240 90" preserveAspectRatio="none">
+        <defs>
+            <linearGradient id="envelopeGradient" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0%" stop-color="#f29abb" />
+                <stop offset="100%" stop-color="#91cfe6" />
+            </linearGradient>
+            <linearGradient id="envelopeFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#f29abb" stop-opacity=".28" />
+                <stop offset="100%" stop-color="#f29abb" stop-opacity="0" />
+            </linearGradient>
+        </defs>
+
+        <path class="envelope-fill" id="envelopeFillPath"></path>
+        <path class="envelope-line" id="envelopePath"></path>
+        <circle class="envelope-point" id="envelopePoint" r="4" />
+        <circle class="envelope-glow" id="envelopeGlow" r="9" />
+    </svg>
+</div>
+            </article>
+
+            <article class="panel voice-b">
+                <div class="panel-title">
+                    <span class="number">03</span>
+                    <b>OSCILLATOR B</b>
+             
+                </div>
+
+                <div class="voice-content">
+                    <div class="wave-block">
+                        <small></small>
+                        <div class="wave-buttons" id="waveB">
+                            <button class="wave-btn active" data-wave="sine">∿</button>
+                            <button class="wave-btn" data-wave="triangle">△</button>
+                            <button class="wave-btn" data-wave="sawtooth">⌁</button>
+                            <button class="wave-btn" data-wave="square">▤</button>
+                        </div>
+                    </div>
+
+                    <div class="knob" data-target="octB" data-min="-2" data-max="2" data-value="1">
+                        <div class="knob-face"><i></i></div>
+                        <small>OCT</small>
+                        <output>+1</output>
+                    </div>
+
+                    <div class="knob" data-target="tuneB" data-min="-100" data-max="100" data-value="7">
+                        <div class="knob-face"><i></i></div>
+                        <small>TUNE</small>
+                        <output>7</output>
+                    </div>
+
+                    <div class="knob" data-target="levelB" data-min="0" data-max="100" data-value="48">
+                        <div class="knob-face"><i></i></div>
+                        <small>LEVEL</small>
+                        <output>48%</output>
+                    </div>
+
+                    <div class="knob" data-target="panB" data-min="-100" data-max="100" data-value="45">
+                        <div class="knob-face"><i></i></div>
+                        <small>PAN</small>
+                        <output>R 45</output>
+                    </div>
+
+                    <div class="voice-switches">
+                        <label class="toggle">
+                            <input type="checkbox" id="subB">
+                            <span></span>SUB
+                        </label>
+                        <label class="toggle">
+                            <input type="checkbox" id="onB" checked>
+                            <span></span>ON
+                        </label>
+                    </div>
+                </div>
+            </article>
+
+        </section>
+
+        <section class="middle">
+
+            <div class="left-column">
+
+                <article class="panel filter-panel">
+                    <div class="panel-title">
+                        <span class="number">04</span>
+                        <b>FILTER</b>
+                     
+                    </div>
+
+                    <div class="three-knobs">
+                        <div class="knob small-knob" data-target="cutoff" data-min="120" data-max="10000"
+                            data-value="4200">
+                            <div class="knob-face"><i></i></div>
+                            <small>CUTOFF</small><output>4.2k</output>
+                        </div>
+                        <div class="knob small-knob" data-target="resonance" data-min="0.1" data-max="18"
+                            data-value="2.5">
+                            <div class="knob-face"><i></i></div>
+                            <small>RESO</small><output>2.5</output>
+                        </div>
+                        <div class="knob small-knob" data-target="drive" data-min="0" data-max="100" data-value="8">
+                            <div class="knob-face"><i></i></div>
+                            <small>DRIVE</small><output>8%</output>
+                        </div>
+                    </div>
+
+                    <div class="filter-bottom">
+                        <select id="filterType">
+                            <option value="lowpass">LOW PASS</option>
+                            <option value="highpass">HIGH PASS</option>
+                            <option value="bandpass">BAND PASS</option>
+                        </select>
+                        <span class="filter-light"></span>
+                    </div>
+                </article>
+
+                <article class="panel key-panel">
+                    <div class="panel-title">
+                        <span class="number">05</span>
+                        <b>KEY CONTROL</b>
+                    </div>
+
+                    <div class="three-knobs">
+                        <div class="knob small-knob yellow-knob" data-target="glide" data-min="0" data-max="0.5"
+                            data-value="0.04">
+                            <div class="knob-face"><i></i></div>
+                            <small>GLIDE</small><output>0.04</output>
+                        </div>
+                        <div class="knob small-knob yellow-knob" data-target="tone" data-min="-12" data-max="12"
+                            data-value="0">
+                            <div class="knob-face"><i></i></div>
+                            <small>SHIFT</small><output>0</output>
+                        </div>
+                        <div class="knob small-knob yellow-knob" data-target="scale" data-min="0" data-max="2"
+                            data-value="1">
+                            <div class="knob-face"><i></i></div>
+                            <small>SCALE</small><output>MINOR</output>
+                        </div>
+                    </div>
+
+                    <div class="key-bottom">
+                        <label>ROOT</label>
+                        <select id="rootNote">
+                            <option>C</option>
+                            <option>C#</option>
+                            <option>D</option>
+                            <option>D#</option>
+                            <option>E</option>
+                            <option>F</option>
+                            <option>F#</option>
+                            <option>G</option>
+                            <option>G#</option>
+                            <option>A</option>
+                            <option>A#</option>
+                            <option>B</option>
+                        </select>
+                        <span>Q W E R T Y U I O P</span>
+                    </div>
+                </article>
+
+            </div>
+
+            <article class="panel sequencer-panel">
+                <div class="panel-title seq-title">
+                    <div>
+                        <span class="number">06</span>
+                        <b>SEQUENCER</b>
+                        <span class="tag lavender-tag">16 STEP</span>
+                    </div>
+                    <div class="seq-actions">
+                        <button class="round-action random-action" id="randomBtn">✳</button>
+                        <button class="round-action clear-action" id="clearBtn">↺</button>
+                    </div>
+                </div>
+
+                <div class="preset-row">
+                    <span>PRESET</span>
+                    <select id="preset">
+                        <option value="dream">DREAM BLOOM</option>
+                        <option value="candy">CANDY WALK</option>
+                        <option value="night">SOFT NIGHT</option>
+                        <option value="pulse">LITTLE PULSE</option>
+                    </select>
+                    <button class="save-btn" id="savePreset">SAVE ♡</button>
+                </div>
+
+                <div class="track-row">
+                    <span>TRACK</span>
+                    <button class="track-btn active" data-track="A">A</button>
+                    <button class="track-btn" data-track="B">B</button>
+                    <span class="step-readout" id="stepReadout">01 / 16</span>
+                </div>
+
+                <div class="steps" id="steps"></div>
+
+                <div class="seq-controls">
+                    <label>NOTE
+                        <select id="noteSelect">
+                            <option value="0">1</option>
+                            <option value="1">2</option>
+                            <option value="2">3</option>
+                            <option value="3">4</option>
+                            <option value="4">5</option>
+                            <option value="5">6</option>
+                            <option value="6">7</option>
+                        </select>
+                    </label>
+
+                    <label>GATE
+                        <input type="range" id="gate" min="15" max="100" value="72">
+                    </label>
+
+                    <label>SWING
+                        <input type="range" id="swing" min="0" max="60" value="8">
+                    </label>
+                </div>
+
+                <div class="seq-bottom">
+                    <span class="seq-led"></span>
+                    LIVE EDIT
+                    <span>16 STEPS</span>
+                </div>
+            </article>
+
+            <article class="panel mixer-panel">
+                <div class="panel-title">
+                    <span class="number">07</span>
+                    <b>MIXER</b>
+                </div>
+
+                <div class="mixers">
+                    <div class="mix-strip">
+                        <small>A</small>
+                        <input type="range" id="mixA" min="0" max="100" value="70">
+                        <output id="mixAOut">70</output>
+                    </div>
+                    <div class="mix-strip">
+                        <small>B</small>
+                        <input type="range" id="mixB" min="0" max="100" value="48">
+                        <output id="mixBOut">48</output>
+                    </div>
+                    <div class="meters">
+                        <div class="meter"><i id="meterL"></i></div>
+                        <div class="meter"><i id="meterR"></i></div>
+                    </div>
+                </div>
+
+                <div class="width-control">
+                    <span>WIDTH</span>
+                    <input type="range" id="width" min="0" max="100" value="85">
+                </div>
+            </article>
+
+        </section>
+
+        <section class="effects">
+
+            <article class="panel effect-panel yellow-effect">
+                <div class="panel-title">
+                    <span class="number">08</span>
+                    <b>MODULATION</b>
+                    <span class="effect-symbol">∿</span>
+                </div>
+
+                <div class="effect-controls">
+                    <div class="knob small-knob yellow-knob" data-target="lfoRate" data-min="0.1" data-max="12"
+                        data-value="2.4">
+                        <div class="knob-face"><i></i></div>
+                        <small>RATE</small><output>2.4</output>
+                    </div>
+                    <div class="knob small-knob yellow-knob" data-target="lfoDepth" data-min="0" data-max="100"
+                        data-value="25">
+                        <div class="knob-face"><i></i></div>
+                        <small>DEPTH</small><output>25%</output>
+                    </div>
+                    <div class="effect-select">
+                        <small>DESTINATION</small>
+                        <select id="lfoDest">
+                            <option value="pitch">PITCH</option>
+                            <option value="filter">FILTER</option>
+                            <option value="volume">VOLUME</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="wave-decoration">∿ ∿ ∿ ∿ ∿ ∿</div>
+            </article>
+
+            <article class="panel effect-panel peach-effect">
+                <div class="panel-title">
+                    <span class="number">09</span>
+                    <b>DELAY</b>
+                    <label class="mini-switch">
+                        <input type="checkbox" id="delayOn" checked>
+                        <span></span>
+                    </label>
+                </div>
+
+                <div class="effect-controls">
+                    <div class="knob small-knob" data-target="delayTime" data-min="0.05" data-max="0.8"
+                        data-value="0.28">
+                        <div class="knob-face"><i></i></div>
+                        <small>TIME</small><output>0.28</output>
+                    </div>
+                    <div class="knob small-knob" data-target="feedback" data-min="0" data-max="0.85" data-value="0.32">
+                        <div class="knob-face"><i></i></div>
+                        <small>FEED</small><output>0.32</output>
+                    </div>
+                    <div class="knob small-knob" data-target="delayMix" data-min="0" data-max="100" data-value="22">
+                        <div class="knob-face"><i></i></div>
+                        <small>MIX</small><output>22%</output>
+                    </div>
+                </div>
+                <div class="wave-decoration">◌ ◌ ◌ ◌</div>
+            </article>
+
+            <article class="panel effect-panel blue-effect">
+                <div class="panel-title">
+                    <span class="number">10</span>
+                    <b>REVERB</b>
+                    <label class="mini-switch">
+                        <input type="checkbox" id="reverbOn" checked>
+                        <span></span>
+                    </label>
+                </div>
+
+                <div class="effect-controls">
+                    <div class="knob small-knob" data-target="room" data-min="0.1" data-max="0.95" data-value="0.68">
+                        <div class="knob-face"><i></i></div>
+                        <small>ROOM</small><output>0.68</output>
+                    </div>
+                    <div class="knob small-knob" data-target="damp" data-min="0" data-max="100" data-value="42">
+                        <div class="knob-face"><i></i></div>
+                        <small>DAMP</small><output>42%</output>
+                    </div>
+                    <div class="knob small-knob" data-target="reverbMix" data-min="0" data-max="100" data-value="28">
+                        <div class="knob-face"><i></i></div>
+                        <small>MIX</small><output>28%</output>
+                    </div>
+                </div>
+                <div class="wave-decoration">✧ ✧ ✧ ✧</div>
+            </article>
+
+            <article class="panel effect-panel pink-effect">
+                <div class="panel-title">
+                    <span class="number">11</span>
+                    <b>PERFORMANCE</b>
+                    <span class="effect-symbol">♡</span>
+                </div>
+
+                <div class="tempo-area">
+                    <div class="tempo-display">
+                        <small>BPM</small>
+                        <strong id="tempoValue">112</strong>
+                    </div>
+                    <input type="range" id="tempo" min="55" max="180" value="112">
+                    <button class="tap-btn" id="tapBtn">TAP</button>
+                </div>
+
+                <div class="performance-bottom">
+                    <label class="hold-button">
+                        <input type="checkbox" id="holdBtn">
+                        <span>HOLD</span>
+                    </label>
+                    <label class="human-control">
+                        <span>HUMANIZE</span>
+                        <input type="range" id="humanize" min="0" max="35" value="8">
+                        <output id="humanizeValue">8%</output>
+                    </label>
+                </div>
+            </article>
+
+        </section>
+
+        <footer class="footer">
+
+        </footer>
+
+    </main>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
